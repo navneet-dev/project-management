@@ -8,7 +8,7 @@ class Project extends Model
 {
     //
 
-    protected $fillable = ['name', 'description', 'due_date'];
+    protected $fillable = ['name', 'description', 'due_date', 'user_id'];
 
 
     public function tasks()

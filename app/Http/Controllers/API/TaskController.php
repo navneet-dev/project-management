@@ -15,7 +15,7 @@ class TaskController extends Controller
     public function index()
     {
         //
-        $tasks = Task::with('project')->get();
+        $tasks = Task::with('project')->where("user_id", auth()->id())->get();
         return response()->json($tasks, 200);
     }
 
@@ -38,7 +38,14 @@ class TaskController extends Controller
             return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()], 422);
         }
 
-        $task = Task::create($request->all());
+        $data["project_id"] = $request->project_id;
+        $data["name"] = $request->name;
+        $data["description"] = $request->description;
+        $data["status"] = $request->status;
+        $data["due_date"] = $request->due_date;
+        $data["user_id"] = auth()->id();
+
+        $task = Task::create($data);
 
         return response()->json($task, 201);
 
